@@ -9,9 +9,19 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 if [[ -z $1 ]]; then
   echo "Usage: managed_directory_compressor /your-directory/ zip-file-name"
 else
-  directory=$1
-  theme="$2.zip"
-  zip -r "$theme" "$directory" ./ -x "*/\.*" -x "\.*" -x "*.zip" -x "*.csv" -x "*.rb" -x "*.bak" -x "*.swp" -x "*.back" -x "*.merge" -x "*.txt" -x "*.sh" -x "node_modules" -x "bower_components" -x "dist"
+  DIRECTORY_TO_COMPRESS=$1
+  ZIPPED_FILE="$2.zip"
 
-  echo "Your zip file, $theme is ready."
-fi 
+  COMPRESS_IGNORE_DIR=("\.git" "*.zip" "*.csv" "*.json" "gulpfile.js" "*.rb" "*.bak" "*.swp" "*.back" "*.merge" "*.txt" "*.sh" "node_modules" "bower_components")
+
+  IGNORE_LIST=("*/\.*" "\.* "\/\.*"")
+  if [[ -n $COMPRESS_IGNORE_DIR ]]; then
+      for IGNORE_DIR in "${COMPRESS_IGNORE_DIR[@]}"; do
+          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/***")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
+      done
+  fi
+
+  zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS" -x "${IGNORE_LIST[@]}" # >/dev/null
+  echo zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS" -x "${IGNORE_LIST[@]}" # >/dev/null
+  echo "Done"
+fi
