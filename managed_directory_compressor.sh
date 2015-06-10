@@ -9,7 +9,7 @@ DIRECTORY=$(cd `dirname $0` && pwd)
 if [[ -z $1 ]]; then
   echo "Usage: managed_directory_compressor /your-directory/ zip-file-name"
 else
-  DIRECTORY_TO_COMPRESS=$1
+  DIRECTORY_TO_COMPRESS=${1%/}
   ZIPPED_FILE="$2.zip"
 
   COMPRESS_IGNORE_DIR=("\.git" "*.zip" "*.csv" "*.json" "gulpfile.js" "*.rb" "*.bak" "*.swp" "*.back" "*.merge" "*.txt" "*.sh" "node_modules" "bower_components")
