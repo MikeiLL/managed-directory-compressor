@@ -1,0 +1,5 @@
+#Managed Directory Compressor#
+
+Bash script for use in compressing plugins, themes, etc which we'd like to compress without including directories like .git, node_modules, bower_components, etc.
+
+Insure that the listed directories and types match the desired ignore types.
