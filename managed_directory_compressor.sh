@@ -12,16 +12,20 @@ else
   DIRECTORY_TO_COMPRESS=${1%/}
   ZIPPED_FILE="$2.zip"
 
-  COMPRESS_IGNORE_DIR=("\.git" "*.zip" "*.csv" "*.json" "gulpfile.js" "*.rb" "*.bak" "*.swp" "*.back" "*.merge" "*.txt" "*.sh" "node_modules" "bower_components")
+  COMPRESS_IGNORE_FILE=("\.git" "*.zip" "*.csv" "*.json" "gulpfile.js" "*.rb" "*.bak" "*.swp" "*.back" "*.merge" "*.txt" "*.sh" "bower_components" "node_modules") 
+  COMPRESS_IGNORE_DIR=("bower_components" "node_modules")
 
   IGNORE_LIST=("*/\.*" "\.* "\/\.*"")
-  if [[ -n $COMPRESS_IGNORE_DIR ]]; then
+  if [[ -n $COMPRESS_IGNORE_FILE ]]; then
+      for IGNORE_FILES in "${COMPRESS_IGNORE_FILE[@]}"; do
+          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_FILES/***")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
+      done
       for IGNORE_DIR in "${COMPRESS_IGNORE_DIR[@]}"; do
-          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/***")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
+          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
       done
   fi
 
   zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS" -x "${IGNORE_LIST[@]}" # >/dev/null
-  echo zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS" -x "${IGNORE_LIST[@]}" # >/dev/null
-  echo "Done"
+  # echo zip -r "$ZIPPED_FILE" "$DIRECTORY_TO_COMPRESS" -x "${IGNORE_LIST[@]}" # >/dev/null
+  echo $DIRECTORY_TO_COMPRESS "compressed as" $ZIPPED_FILE.
 fi
