@@ -18,10 +18,10 @@ else
   IGNORE_LIST=("*/\.*" "\.* "\/\.*"")
   if [[ -n $COMPRESS_IGNORE_FILE ]]; then
       for IGNORE_FILES in "${COMPRESS_IGNORE_FILE[@]}"; do
-          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_FILES/***")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
+          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_FILES/*")  
       done
       for IGNORE_DIR in "${COMPRESS_IGNORE_DIR[@]}"; do
-          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/")  ## "$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/*"  perhaps is enough?
+          IGNORE_LIST+=("$DIRECTORY_TO_COMPRESS/$IGNORE_DIR/")
       done
   fi
 
